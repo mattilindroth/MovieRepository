@@ -16,7 +16,7 @@ namespace MovieRepository.Services
             return new List<Movie>();
         }
 
-        public async Task<Movie> GetById()
+        public async Task<Movie> GetById(int id)
         {
             return new Movie();
         }
