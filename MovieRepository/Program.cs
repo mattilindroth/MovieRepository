@@ -34,5 +34,5 @@ app.UseHttpsRedirection();
 app.MapGet("/movies", async (MovieService movieService) => await movieService.GetAllMovies()).WithName("getAllMovies");
 app.MapGet("/movies/{id}", async (int id, MovieService movieService) => await movieService.GetById(id)).WithName("getMovieById");
 app.MapGet("movies/search/{searchTerm}", async (string searchTerm, MovieService movieService) => await movieService.Search(searchTerm)).WithName("searchMovie");
-
+app.MapPost("movies", async (Movie movie, MovieService movieService) => await movieService.AddNew(movie)).WithName("addNew");
 app.Run();
