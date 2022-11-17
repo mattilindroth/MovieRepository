@@ -10,12 +10,16 @@ namespace MovieRepository.Swagger
             switch (operation.OperationId)
             {
                 case "getAllMovies":
-                    operation.Summary = "Get movies";
+                    operation.Summary = "Get all movies";
                     operation.Description = "Get all movies in the repository";
                     break;
-                case "get":
-                    operation.Summary = "Get's the weather forecast";
-                    operation.Description = "A sample operation returning some json data.";
+                case "getMovieById":
+                    operation.Summary = "Get specific movie";
+                    operation.Description = "Get details on a specific movie";
+                    break;
+                case "searchMovie":
+                    operation.Summary = "Search movies";
+                    operation.Description = "Search movies by search text";
                     break;
                 default:
                     break;

@@ -31,8 +31,8 @@ app.UseHttpsRedirection();
 
 //app.UseAuthorization();
 
-app.MapGet("/movies", async (MovieService movieService) => await movieService.GetAllMovies());
-app.MapGet("/movies/{id}", async (int id, MovieService movieService) => await movieService.GetById(id));
-app.MapGet("movies/search/{searchTerm}", async (string searchTerm, MovieService movieService) => await movieService.Search(searchTerm));
+app.MapGet("/movies", async (MovieService movieService) => await movieService.GetAllMovies()).WithName("getAllMovies");
+app.MapGet("/movies/{id}", async (int id, MovieService movieService) => await movieService.GetById(id)).WithName("getMovieById");
+app.MapGet("movies/search/{searchTerm}", async (string searchTerm, MovieService movieService) => await movieService.Search(searchTerm)).WithName("searchMovie");
 
 app.Run();

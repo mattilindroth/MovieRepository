@@ -25,5 +25,10 @@ namespace MovieRepository.Services
         {
             return new List<Movie>();
         }
+
+        public async Task<Movie> AddNew(Movie movie)
+        {
+            return movie;
+        }
     }
 }
