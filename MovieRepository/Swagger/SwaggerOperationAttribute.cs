@@ -21,6 +21,10 @@ namespace MovieRepository.Swagger
                     operation.Summary = "Search movies";
                     operation.Description = "Search movies by search text";
                     break;
+                case "addMovie":
+                    operation.Summary = "Add movie to repository";
+                    operation.Description = "Adds new movie to repository";
+                    break;
                 default:
                     break;
             }
