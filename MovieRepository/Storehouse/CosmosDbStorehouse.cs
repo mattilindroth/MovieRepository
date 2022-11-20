@@ -5,12 +5,12 @@ using MovieRepository.Storehouse;
 
 namespace MovieRepository.Repository
 {
-    internal class MovieStorehouse : IMovieStorehouse
+    internal class CosmosDbStorehouse : IMovieStorehouse
     {
 
         private readonly Container _cosmosContainer;
 
-        public MovieStorehouse(MovieStorehouseConnectionParameters parameters) 
+        public CosmosDbStorehouse(MovieStorehouseConnectionParameters parameters) 
         {
             CosmosClient cosmosClient = new(parameters.EndPointUri, parameters.PrimaryKey, new CosmosClientOptions() { ApplicationName = "MovieRepository" });
             Database cosmosDatabase = cosmosClient.GetDatabase(parameters.DatabaseId);

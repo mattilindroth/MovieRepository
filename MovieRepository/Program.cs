@@ -23,7 +23,7 @@ var parameters = new MovieStorehouseConnectionParameters(configSection.GetValue<
                                                            configSection.GetValue<string>("ContainerId"));
 // Add services to the container.
 builder.Services.AddScoped<MovieService>();
-builder.Services.AddScoped<IMovieStorehouse, MovieStorehouse>();
+builder.Services.AddScoped<IMovieStorehouse, CosmosDbStorehouse>();
 builder.Services.AddSingleton(parameters);
 
 builder.Services.AddLogging();
