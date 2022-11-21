@@ -2,6 +2,7 @@
 using Microsoft.Azure.Cosmos.Linq;
 using MovieRepository.Models;
 using MovieRepository.Storehouse;
+using System.Reflection;
 
 namespace MovieRepository.Repository
 {
@@ -90,23 +91,21 @@ namespace MovieRepository.Repository
 
         public async Task<List<Movie>> SearchAsync(string searchTerm)
         {
-            string sql = "SELECT * FROM movies m WHERE LOWER(m.name) like '%@searchTerm%'";
-            var query = new QueryDefinition(query: sql).WithParameter("@searchTerm", searchTerm);
+            IEnumerable<Movie> allResults= new List<Movie>();
+            var interfaceType = typeof(IMovieFilter);
 
-            using FeedIterator<Movie> feed = _cosmosContainer.GetItemQueryIterator<Movie>(queryDefinition: query);
+            var all = AppDomain.CurrentDomain.GetAssemblies()
+              .SelectMany(x => x.GetTypes())
+              .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract)
+              .Select(x => Activator.CreateInstance(x));
 
-            List<Movie> results = new();
-
-            while (feed.HasMoreResults)
+            foreach (IMovieFilter filter in all)
             {
-                FeedResponse<Movie> response = await feed.ReadNextAsync();
-                foreach (Movie item in response)
-                {
-                    results.Add(item);
-                }
+                var currentFilterResults = await filter.GetMoviesAsync(_cosmosContainer, searchTerm);
+                allResults = allResults.Union(currentFilterResults);
             }
 
-            return results;
+            return allResults.ToList<Movie>();
         }
     }
 }

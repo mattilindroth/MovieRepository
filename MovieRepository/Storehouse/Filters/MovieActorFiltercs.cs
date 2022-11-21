@@ -12,14 +12,8 @@ namespace MovieRepository.Storehouse.Filters
 
             filterTerm = filterTerm.Trim().ToLower();
 
-            /*
-SELECT c.givenName
-FROM c IN Families.children
-WHERE c.grade = 8
-             */
-
-            string sql = "SELECT * FROM c IN movies.actors WHERE (LOWER('c.firstName') like '%@filter%') OR (LOWER('c.lastName') like '%@filter%')";
-            var query = new QueryDefinition(query: sql).WithParameter("@filter", filterTerm);
+            string sql = "SELECT * FROM movies m WHERE (LOWER(m.actors[0].firstName) like '%" + filterTerm + "%') OR (LOWER(m.actors[0].lastName) like '%" + filterTerm + "%')";
+            var query = new QueryDefinition(query: sql);
 
             using FeedIterator<Movie> feed = container.GetItemQueryIterator<Movie>(queryDefinition: query);
 

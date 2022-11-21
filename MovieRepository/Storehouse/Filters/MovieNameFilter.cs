@@ -14,8 +14,8 @@ namespace MovieRepository.Storehouse.Filters
 
             filterTerm = filterTerm.Trim().ToLower();
 
-            string sql = "SELECT * FROM movies m WHERE LOWER('m.name') like '%@filter%'";
-            var query = new QueryDefinition(query: sql).WithParameter("@filter", filterTerm);
+            string sql = "SELECT * FROM movies m WHERE LOWER(m.name) like '%" + filterTerm + "%'";
+            var query = new QueryDefinition(query: sql);
 
             using FeedIterator<Movie> feed = container.GetItemQueryIterator<Movie>(queryDefinition: query);
 
