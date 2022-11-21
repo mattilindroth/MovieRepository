@@ -7,9 +7,9 @@ namespace MovieRepository.Services
 {
     public class MovieService
     {
-        private readonly ILogger<MovieService> _logger;
+        private readonly ILogger _logger;
         private readonly IMovieStorehouse _movieStoreHouse;
-        public MovieService(ILogger<MovieService> logger, IMovieStorehouse movieStoreHouse) 
+        public MovieService(ILogger logger, IMovieStorehouse movieStoreHouse) 
         { 
             _logger=  logger;
             _movieStoreHouse= movieStoreHouse;
@@ -20,11 +20,11 @@ namespace MovieRepository.Services
             return await _movieStoreHouse.GetAllMoviesAsync();
         }
 
-        public async Task<Movie> GetById(string id)
+        public async Task<Movie?> GetById(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
-                return new Movie();
+                return new Movie() ;
             }
 
             return await _movieStoreHouse.GetMovieByIdAsync(id);

@@ -77,7 +77,7 @@ namespace MovieRepository.Repository
             return results;
         }
 
-        public async Task<Movie> GetMovieByIdAsync(string id)
+        public async Task<Movie?> GetMovieByIdAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
             {

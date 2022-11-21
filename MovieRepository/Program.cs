@@ -24,11 +24,16 @@ var parameters = new MovieStorehouseConnectionParameters(configSection.GetValue<
 builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<IMovieStorehouse, CosmosDbStorehouse>();
 builder.Services.AddSingleton(parameters);
-
+builder.Services.AddCors();
 builder.Services.AddLogging();
 
 var app = builder.Build();
+app.UseCors(builder => builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader()
 
+   );
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
