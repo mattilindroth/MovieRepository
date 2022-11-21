@@ -7,11 +7,9 @@ namespace MovieRepository.Services
 {
     public class MovieService
     {
-        private readonly ILogger _logger;
         private readonly IMovieStorehouse _movieStoreHouse;
-        public MovieService(ILogger logger, IMovieStorehouse movieStoreHouse) 
+        public MovieService(IMovieStorehouse movieStoreHouse) 
         { 
-            _logger=  logger;
             _movieStoreHouse= movieStoreHouse;
         }   
 

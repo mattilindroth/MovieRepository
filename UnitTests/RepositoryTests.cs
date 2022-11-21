@@ -17,7 +17,7 @@ namespace UnitTests
         [Fact]
         public async Task EmptyIdReturnsEmptyObject()
         {
-            MovieService service = new MovieService(null, _mockStorehouse);
+            MovieService service = new MovieService(_mockStorehouse);
             string emptyId = "";
 
             var nonExistingMovie = await service.GetById(emptyId);
@@ -35,7 +35,7 @@ namespace UnitTests
         [Fact]
         public async Task NonExistingIdReturnsNullAsync()
         {
-            MovieService service = new MovieService(null, _mockStorehouse);
+            MovieService service = new MovieService(_mockStorehouse);
             string nonExistingId = "non-Existing-id";
 
             var nonExistingMovie = await service.GetById(nonExistingId);
@@ -46,7 +46,7 @@ namespace UnitTests
         [Fact]
         public async Task ExistingIdReturnsValueAsync() 
         {
-            MovieService service = new MovieService(null, _mockStorehouse);
+            MovieService service = new MovieService(_mockStorehouse);
             var movieList = await _mockStorehouse.GetAllMoviesAsync();
                         
             string existingId = movieList.First().Id;

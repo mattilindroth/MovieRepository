@@ -25,7 +25,7 @@ builder.Services.AddScoped<MovieService>();
 builder.Services.AddScoped<IMovieStorehouse, CosmosDbStorehouse>();
 builder.Services.AddSingleton(parameters);
 builder.Services.AddCors();
-builder.Services.AddLogging();
+//builder.Services.AddLogging();
 
 var app = builder.Build();
 app.UseCors(builder => builder
