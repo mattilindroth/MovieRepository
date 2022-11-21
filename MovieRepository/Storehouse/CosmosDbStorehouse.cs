@@ -36,7 +36,7 @@ namespace MovieRepository.Repository
                 }
             }
 
-            return (IEnumerable<Movie>)results.FirstOrDefault<Movie>();
+            return results;
         }
 
         public async Task<Movie> AddMovieAsync(Movie movie)
