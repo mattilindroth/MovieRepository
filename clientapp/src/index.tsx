@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
 import Header from './Header';
 import Movies from './Movies';
-import Movie from './Movie';
+import MovieView from './Movie';
 import AddMovie from './AddMovie';
 import Search from './Search';
 
@@ -12,8 +11,6 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  useParams
 } from "react-router-dom";
 
 const root = ReactDOM.createRoot(
@@ -26,7 +23,7 @@ root.render(
       <div>
         <Routes>
           <Route path = "/" element={<Movies />} />
-          <Route path = "/movie/:id" element={<Movie  />} />
+          <Route path = "/movie/:id" element={<MovieView  />} />
           <Route path = "/add" element={<AddMovie />} />
           <Route path = "/search" element={<Search />} />
         </Routes>
