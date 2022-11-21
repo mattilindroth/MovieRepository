@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
+import useParams from "react-router-dom";
 
-class Movies extends React.Component {
-    render() {
+const Movies:React.FC = ():JSX.Element => {    
         return <div>Movies listing</div>
-    }
 };
 
 export default Movies
