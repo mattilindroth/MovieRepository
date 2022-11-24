@@ -4,9 +4,9 @@ namespace MovieRepository.Storehouse
 {
     public interface IMovieStorehouse
     {
-        public Task<List<Movie>> GetAllMoviesAsync();
-        public Task<Movie?> GetMovieByIdAsync(string id);
-        public Task<List<Movie>> SearchAsync(string searchTerm);
-        public Task<Movie> AddMovieAsync(Movie movie);
+        public Task<IResult> GetAllMoviesAsync();
+        public Task<IResult> GetMovieByIdAsync(string id);
+        public Task<IResult> SearchAsync(string searchTerm);
+        public Task<IResult> AddMovieAsync(Movie movie);
     }
 }

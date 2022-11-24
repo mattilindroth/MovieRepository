@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import Header from './Header';
-import Movies from './Movies';
-import MovieView from './Movie';
-import AddMovie from './AddMovie';
-import Search from './Search';
+import Header from './Components/Header';
+import Movies from './Components/Movies';
+import MovieView from './Components/Movie';
+import AddMovie from './Components/AddMovie';
+import Search from './Components/Search';
 
 import {
   BrowserRouter as Router,

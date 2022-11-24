@@ -13,34 +13,38 @@ namespace MovieRepository.Services
             _movieStoreHouse= movieStoreHouse;
         }   
 
-        public async Task<List<Movie>> GetAllMovies()
+        public async Task<IResult> GetAllMovies()
         {
             return await _movieStoreHouse.GetAllMoviesAsync();
         }
 
-        public async Task<Movie?> GetById(string id)
+        public async Task<IResult> GetById(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
-                return new Movie() ;
+                return Results.BadRequest("id cannot be empty or null");
             }
 
             return await _movieStoreHouse.GetMovieByIdAsync(id);
         }
 
 
-        public async Task<List<Movie>> Search(string searchTerm)
+        public async Task<IResult> Search(string searchTerm)
         {
             if (string.IsNullOrEmpty(searchTerm) || searchTerm.Length < 3)
             {
-                return new List<Movie>();
+                return Results.BadRequest(nameof(Search) + " must be longer than 2 characters.");
             }
 
             return await _movieStoreHouse.SearchAsync(searchTerm);
         }
 
-        public async Task<Movie> AddNew(Movie movie)
+        public async Task<IResult> AddNew(Movie movie)
         {
+            if(movie == null)
+            {
+                return Results.BadRequest("movie is empty");
+            }
             return await _movieStoreHouse.AddMovieAsync(movie);
         }
     }
