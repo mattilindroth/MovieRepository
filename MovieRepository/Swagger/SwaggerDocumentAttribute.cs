@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace MovieRepository.Swagger
+namespace MovieStorehouse.Swagger
 {
     public class SwaggerDocumentAttribute : IDocumentFilter
     {

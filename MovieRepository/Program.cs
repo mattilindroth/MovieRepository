@@ -1,8 +1,8 @@
-using MovieRepository.Models;
-using MovieRepository.Repository;
-using MovieRepository.Services;
-using MovieRepository.Storehouse;
-using MovieRepository.Swagger;
+using MovieStorehouse.Models;
+using MovieStorehouse.Repository;
+using MovieStorehouse.Services;
+using MovieStorehouse.Storehouse;
+using MovieStorehouse.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,17 +15,21 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 //Get parameters for cosmosDB connection
-var configSection = builder.Configuration.GetSection("DbConnection");
-var parameters = new MovieStorehouseConnectionParameters(configSection.GetValue<string>("EndPointUri"),
+var configSection = builder.Configuration.GetSection("CosmosDbConnection");
+var parameters = new CosmosDBConnectionParameters(configSection.GetValue<string>("EndPointUri"),
                                                            configSection.GetValue<string>("PrimaryKey"),
                                                            configSection.GetValue<string>("DatabaseId"),
                                                            configSection.GetValue<string>("ContainerId"));
+
+var connectionString = builder.Configuration.GetConnectionString("MovieContext");
+
 // Add services to the container.
 builder.Services.AddScoped<MovieService>();
-builder.Services.AddScoped<IMovieStorehouse, CosmosDbStorehouse>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+//builder.Services.AddScoped<IMovieRepository, CosmosRepository>();
+builder.Services.AddScoped<MovieContext>();
 builder.Services.AddSingleton(parameters);
 builder.Services.AddCors();
-//builder.Services.AddLogging();
 
 var app = builder.Build();
 app.UseCors(builder => builder

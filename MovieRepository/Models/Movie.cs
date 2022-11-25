@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
-namespace MovieRepository.Models
+namespace MovieStorehouse.Models
 {
     public class Movie
     {
@@ -15,7 +15,7 @@ namespace MovieRepository.Models
         public int Year { get; set; }
 
         [JsonProperty("genres")]
-        public List<string>? Genres { get; set; }
+        public virtual List<Genre>? Genres { get; set; }
 
         [JsonProperty("ageLimit")]
         public int AgeLimit { get; set; }
@@ -24,10 +24,10 @@ namespace MovieRepository.Models
         public int Rating { get; set; }
 
         [JsonProperty("actors")]
-        public List<Person>? Actors { get; set; }
+        public virtual List<Person>? Actors { get; set; }
 
         [JsonProperty("director")]
-        public Person? Director { get; set; }
+        public virtual Person? Director { get; set; }
 
         [JsonProperty("synopsis")]
         public string Synopsis { get; set; }

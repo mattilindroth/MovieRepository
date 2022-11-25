@@ -1,8 +1,8 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using MovieRepository.Models;
+using MovieStorehouse.Models;
 
-namespace MovieRepository.Storehouse.Filters
+namespace MovieStorehouse.Storehouse.Filters
 {
     public class MovieNameFilter : IMovieFilter
     {

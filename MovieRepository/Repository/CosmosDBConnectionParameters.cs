@@ -1,9 +1,9 @@
-﻿namespace MovieRepository.Storehouse
+﻿namespace MovieStorehouse.Storehouse
 {
-    internal class MovieStorehouseConnectionParameters
+    internal class CosmosDBConnectionParameters
     {
         
-        public MovieStorehouseConnectionParameters(string endPointUri, string primaryKey, string databaseId, string containerId) 
+        public CosmosDBConnectionParameters(string endPointUri, string primaryKey, string databaseId, string containerId) 
         {
             EndPointUri = endPointUri;
             PrimaryKey = primaryKey;

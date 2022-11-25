@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.Cosmos;
-using MovieRepository.Models;
+using MovieStorehouse.Models;
 
-namespace MovieRepository.Storehouse
+namespace MovieStorehouse.Storehouse
 {
     public interface IMovieFilter
     {

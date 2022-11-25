@@ -1,17 +1,17 @@
 ﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
-using MovieRepository.Models;
-using MovieRepository.Storehouse;
+using MovieStorehouse.Models;
+using MovieStorehouse.Storehouse;
 using System.Reflection.Metadata.Ecma335;
 
-namespace MovieRepository.Repository
+namespace MovieStorehouse.Repository
 {
-    internal class CosmosDbStorehouse : IMovieStorehouse
+    internal class CosmosRepository : IMovieRepository
     {
 
         private readonly Container _cosmosContainer;
 
-        public CosmosDbStorehouse(MovieStorehouseConnectionParameters parameters) 
+        public CosmosRepository(CosmosDBConnectionParameters parameters) 
         {
             CosmosClient cosmosClient = new(parameters.EndPointUri, parameters.PrimaryKey, new CosmosClientOptions() { ApplicationName = "MovieRepository" });
             Database cosmosDatabase = cosmosClient.GetDatabase(parameters.DatabaseId);
@@ -39,14 +39,8 @@ namespace MovieRepository.Repository
             return results;
         }
 
-        public async Task<IResult> AddMovieAsync(Movie movie)
+        public async Task<Movie> AddMovieAsync(Movie movie)
         {
-            if (movie == null)
-            {
-                var validationDictionary = new Dictionary<string, string[]>();
-                validationDictionary.Add("problem", new string[] { "Movie object cannot be null"});
-                return Results.ValidationProblem(validationDictionary);
-            }
 
             var possiblyExistingMovie = await RetrieveMovieByProperty("name", movie.Name);
 
@@ -56,13 +50,13 @@ namespace MovieRepository.Repository
                 var itemResponse = await _cosmosContainer.CreateItemAsync<Movie>(movie);
                 if (itemResponse.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return Results.Ok(movie);
+                    return movie;
                 }
             }
-            return Results.Conflict("Movie with similar name already exists");
+            return movie;
         }
 
-        public async Task<IResult> GetAllMoviesAsync()
+        public async Task<List<Movie>> GetAllMoviesAsync()
         {
             var queryable = _cosmosContainer.GetItemLinqQueryable<Movie>();
 
@@ -78,22 +72,17 @@ namespace MovieRepository.Repository
                     results.Add(movie);
                 }
             }
-            return Results.Ok(results);
+            return results;
         }
 
-        public async Task<IResult> GetMovieByIdAsync(string id)
+        public async Task<Movie?> GetMovieByIdAsync(string id)
         {
             var possiblyExistingMovie = await RetrieveMovieByProperty("id", id);
 
-            if(possiblyExistingMovie== null || !possiblyExistingMovie.Any())
-            {
-                return Results.NotFound();
-            }
-
-            return Results.Ok(possiblyExistingMovie.First());
+            return possiblyExistingMovie.FirstOrDefault();
         }
 
-        public async Task<IResult> SearchAsync(string searchTerm)
+        public async Task<List<Movie>> SearchAsync(string searchTerm)
         {
             IEnumerable<Movie> allResults= new List<Movie>();
             var interfaceType = typeof(IMovieFilter);
@@ -109,7 +98,7 @@ namespace MovieRepository.Repository
                 allResults = allResults.Union(currentFilterResults);
             }
 
-            return Results.Ok(allResults);
+            return allResults.ToList();
         }
     }
 }

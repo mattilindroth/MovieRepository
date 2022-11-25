@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MovieRepository.Models
+namespace MovieStorehouse.Models
 {
     public class Person
     {

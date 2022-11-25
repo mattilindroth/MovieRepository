@@ -1,21 +1,29 @@
-﻿using MovieRepository.Models;
+﻿using MovieStorehouse.Models;
 using Microsoft.AspNetCore.Mvc;
-using MovieRepository.Repository;
-using MovieRepository.Storehouse;
+using MovieStorehouse.Repository;
+using MovieStorehouse.Storehouse;
 
-namespace MovieRepository.Services
+namespace MovieStorehouse.Services
 {
     public class MovieService
     {
-        private readonly IMovieStorehouse _movieStoreHouse;
-        public MovieService(IMovieStorehouse movieStoreHouse) 
+        private readonly IMovieRepository _movieStoreHouse;
+        public MovieService(IMovieRepository movieStoreHouse) 
         { 
             _movieStoreHouse= movieStoreHouse;
         }   
 
         public async Task<IResult> GetAllMovies()
         {
-            return await _movieStoreHouse.GetAllMoviesAsync();
+            try
+            {
+                var movies = await _movieStoreHouse.GetAllMoviesAsync();
+                return Results.Ok(movies);
+            } catch (Exception e)
+            {
+                //Todo log error
+                return Results.StatusCode(500);
+            }
         }
 
         public async Task<IResult> GetById(string id)
@@ -25,18 +33,35 @@ namespace MovieRepository.Services
                 return Results.BadRequest("id cannot be empty or null");
             }
 
-            return await _movieStoreHouse.GetMovieByIdAsync(id);
+            var movie = await _movieStoreHouse.GetMovieByIdAsync(id);
+            if(movie == null)
+            {
+                return Results.NotFound(id);
+            }
+            return Results.Ok(movie);
         }
 
 
         public async Task<IResult> Search(string searchTerm)
         {
-            if (string.IsNullOrEmpty(searchTerm) || searchTerm.Length < 3)
+            List<Movie> movies;
+            try
             {
-                return Results.BadRequest(nameof(Search) + " must be longer than 2 characters.");
-            }
+                if (string.IsNullOrEmpty(searchTerm) || searchTerm.Length < 3)
+                {
+                    return Results.BadRequest(nameof(Search) + " must be longer than 2 characters.");
+                }
 
-            return await _movieStoreHouse.SearchAsync(searchTerm);
+                movies = await _movieStoreHouse.SearchAsync(searchTerm);
+            }
+            catch (Exception e)
+            {
+                //Todo log error
+                return Results.StatusCode(500);
+            }
+         
+            return Results.Ok(movies);
+            
         }
 
         public async Task<IResult> AddNew(Movie movie)
@@ -45,7 +70,11 @@ namespace MovieRepository.Services
             {
                 return Results.BadRequest("movie is empty");
             }
-            return await _movieStoreHouse.AddMovieAsync(movie);
+            var result = await _movieStoreHouse.AddMovieAsync(movie);
+            if (result.Id == "0" || string.IsNullOrEmpty(result.Id))
+                return Results.StatusCode(500);
+
+            return Results.Ok(result);
         }
     }
 }
