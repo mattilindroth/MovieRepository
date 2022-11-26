@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace UnitTests
 {
-    internal class MockDB : MovieRepository.Storehouse.IMovieStorehouse
+    internal class MockDB : MovieRepository.Storehouse.IMovieRepository
     {
 
         private readonly List<Movie> _movies;

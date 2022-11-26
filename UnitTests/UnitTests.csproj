@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MovieRepository\MovieRepository.csproj" />
+    <ProjectReference Include="..\MovieRepository\MovieStorehouse.csproj" />
   </ItemGroup>
 
   <ItemGroup>

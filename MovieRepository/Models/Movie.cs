@@ -6,7 +6,7 @@ namespace MovieStorehouse.Models
     public class Movie
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -15,7 +15,7 @@ namespace MovieStorehouse.Models
         public int Year { get; set; }
 
         [JsonProperty("genres")]
-        public virtual List<Genre>? Genres { get; set; }
+        public virtual List<Genre> Genres { get; set; }
 
         [JsonProperty("ageLimit")]
         public int AgeLimit { get; set; }

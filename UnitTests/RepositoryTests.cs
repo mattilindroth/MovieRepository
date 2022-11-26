@@ -7,7 +7,7 @@ namespace UnitTests
 {
     public class RepositoryTest
     {
-        readonly IMovieStorehouse _mockStorehouse;
+        readonly IMovieRepository _mockStorehouse;
 
         public RepositoryTest() 
         {

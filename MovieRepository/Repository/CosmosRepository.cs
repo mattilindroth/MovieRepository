@@ -46,7 +46,6 @@ namespace MovieStorehouse.Repository
 
             if (possiblyExistingMovie == null || possiblyExistingMovie.Any())
             {
-                movie.Id = Guid.NewGuid().ToString();
                 var itemResponse = await _cosmosContainer.CreateItemAsync<Movie>(movie);
                 if (itemResponse.StatusCode == System.Net.HttpStatusCode.OK)
                 {
@@ -75,9 +74,9 @@ namespace MovieStorehouse.Repository
             return results;
         }
 
-        public async Task<Movie?> GetMovieByIdAsync(string id)
+        public async Task<Movie?> GetMovieByIdAsync(int id)
         {
-            var possiblyExistingMovie = await RetrieveMovieByProperty("id", id);
+            var possiblyExistingMovie = await RetrieveMovieByProperty("id", id.ToString());
 
             return possiblyExistingMovie.FirstOrDefault();
         }

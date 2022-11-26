@@ -4,11 +4,11 @@ using MovieStorehouse.Storehouse;
 
 namespace MovieStorehouse.Repository
 {
-    public class MovieRepository : IMovieRepository
+    public class SqlRepository : IMovieRepository
     {
         private readonly MovieContext movieContext;
 
-        public MovieRepository(MovieContext context) 
+        public SqlRepository(MovieContext context) 
         {
             movieContext= context;
         }
@@ -25,7 +25,7 @@ namespace MovieStorehouse.Repository
             return await movieContext.Movies.ToListAsync<Movie>();
         }
 
-        public async Task<Movie?> GetMovieByIdAsync(string id)
+        public async Task<Movie?> GetMovieByIdAsync(int id)
         {
             return await movieContext.Movies.FirstAsync(m => m.Id == id);
         }

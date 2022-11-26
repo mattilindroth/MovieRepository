@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using MovieStorehouse.Models;
 using MovieStorehouse.Repository;
 using MovieStorehouse.Services;
@@ -15,20 +16,26 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 //Get parameters for cosmosDB connection
-var configSection = builder.Configuration.GetSection("CosmosDbConnection");
-var parameters = new CosmosDBConnectionParameters(configSection.GetValue<string>("EndPointUri"),
-                                                           configSection.GetValue<string>("PrimaryKey"),
-                                                           configSection.GetValue<string>("DatabaseId"),
-                                                           configSection.GetValue<string>("ContainerId"));
+//var configSection = builder.Configuration.GetSection("CosmosDbConnection");
+//var parameters = new CosmosDBConnectionParameters(configSection.GetValue<string>("EndPointUri"),
+//                                                           configSection.GetValue<string>("PrimaryKey"),
+//                                                           configSection.GetValue<string>("DatabaseId"),
+//                                                           configSection.GetValue<string>("ContainerId"));
+//builder.Services.AddScoped<IMovieRepository, CosmosRepository>();
+//builder.Services.AddSingleton(parameters);
 
-var connectionString = builder.Configuration.GetConnectionString("MovieContext");
+// Parameters for SQL db 
+//builder.Services.AddDbContext<MovieContext>(
+//       options => options.UseSqlServer("name=ConnectionStrings:MovieContext"));
+//**** In memory db ****
+builder.Services.AddDbContext<MovieContext>(options => 
+    options.UseInMemoryDatabase("items"));
+builder.Services.AddScoped<IMovieRepository, SqlRepository>();
+
 
 // Add services to the container.
 builder.Services.AddScoped<MovieService>();
-builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-//builder.Services.AddScoped<IMovieRepository, CosmosRepository>();
-builder.Services.AddScoped<MovieContext>();
-builder.Services.AddSingleton(parameters);
+
 builder.Services.AddCors();
 
 var app = builder.Build();
@@ -48,7 +55,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapGet("/movies", async (MovieService movieService) => await movieService.GetAllMovies()).WithName("getAllMovies");
-app.MapGet("/movies/{id}", async (string id, MovieService movieService) => await movieService.GetById(id)).WithName("getMovieById");
+app.MapGet("/movies/{id}", async (int id, MovieService movieService) => await movieService.GetById(id)).WithName("getMovieById");
 app.MapGet("movies/search/{searchTerm}", async (string searchTerm, MovieService movieService) => await movieService.Search(searchTerm)).WithName("searchMovie");
 app.MapPost("movies", async (Movie movie, MovieService movieService) => await movieService.AddNew(movie)).WithName("addNew");
 

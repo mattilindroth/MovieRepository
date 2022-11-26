@@ -26,9 +26,9 @@ namespace MovieStorehouse.Services
             }
         }
 
-        public async Task<IResult> GetById(string id)
+        public async Task<IResult> GetById(int id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (id <= 0)
             {
                 return Results.BadRequest("id cannot be empty or null");
             }
@@ -71,7 +71,7 @@ namespace MovieStorehouse.Services
                 return Results.BadRequest("movie is empty");
             }
             var result = await _movieStoreHouse.AddMovieAsync(movie);
-            if (result.Id == "0" || string.IsNullOrEmpty(result.Id))
+            if (result.Id <= 0 )
                 return Results.StatusCode(500);
 
             return Results.Ok(result);
