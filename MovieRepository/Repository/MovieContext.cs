@@ -65,9 +65,9 @@ namespace MovieStorehouse.Repository
 
                 movie.HasOne<Person>(m => m.Director);
 
-                movie.HasMany<Person>(m => m.Actors).WithMany(a => a.Movies);
+                //movie.HasMany<Person>(m => m.Actors).WithMany(a => a.Movies);
 
-                movie.HasMany<Genre>(m => m.Genres).WithMany(g => g.Movies);
+                //movie.HasMany<Genre>(m => m.Genres).WithMany(g => g.Movies);
             });
 
 

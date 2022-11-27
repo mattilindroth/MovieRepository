@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {Button, Card, TextField, TableContainer, Table, Paper, TableBody, TableCell, Link, TableRow } from '@mui/material';
 import Movie from '../Models/Movie';
 import axios from 'axios';
+import BackendUrl from '../Axios/AxiosConfig';
 
 const Search:React.FC = ():JSX.Element => {
 
@@ -9,15 +10,13 @@ const Search:React.FC = ():JSX.Element => {
 
 	const [searchResult, setResult] = useState<Array<Movie>>([]);
 
-	const backendUrl = process.env.BACKEND_URL;
-
 	function handleSearchTermChange(event: any) {
 		setSearchTerm(event.target.value);
 	}
 
 	function handleSubmit(event: any) {
 		if(searchTerm.length >2) {
-			axios.get(backendUrl + "/movies/search/" + searchTerm).then(function(result) {
+			axios.get(BackendUrl + "/movies/search/" + searchTerm).then(function(result) {
 				let foundMovies:Array<Movie> = result.data;
 				setResult(foundMovies);
 			});

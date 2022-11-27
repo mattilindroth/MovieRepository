@@ -1,7 +1,7 @@
 import React, {useState } from 'react';
 import {useParams } from "react-router-dom";
 import Movie from '../Models/Movie';
-import axios from 'axios';
+
 import {Table, TableContainer, Paper, TableRow, TableCell, TableBody, Rating, Card, CardContent, Typography, TextField } from '@mui/material';
 
 const AddMovie:React.FC = ():JSX.Element => {

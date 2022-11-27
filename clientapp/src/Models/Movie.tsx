@@ -1,4 +1,5 @@
 import Person from './Person';
+import Genre from './Genre';
 
 type Movie = {
 	id: String,
@@ -8,7 +9,7 @@ type Movie = {
 	director: Person,
 	ageLimit: number,
 	year: number
-	genres: Array<String>,
+	genres: Array<Genre>,
 	rating: number
 }
 

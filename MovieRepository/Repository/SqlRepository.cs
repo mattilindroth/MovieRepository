@@ -22,7 +22,11 @@ namespace MovieStorehouse.Repository
 
         public async Task<List<Movie>> GetAllMoviesAsync()
         {
-            return await movieContext.Movies.ToListAsync<Movie>();
+            var movies = await movieContext.Movies.
+                Include(m => m.Genres).
+                Include(m => m.Actors).
+                Include(m => m.Director).ToListAsync<Movie>(); //.Include(m => m.Director).Include(m => m.Genres)
+            return movies;
         }
 
         public async Task<Movie?> GetMovieByIdAsync(int id)
@@ -33,7 +37,7 @@ namespace MovieStorehouse.Repository
         public async Task<List<Movie>> SearchAsync(string searchTerm)
         {
             searchTerm = searchTerm.ToLower();
-            var byName =  await movieContext.Movies.Where(m => m.Name.Contains(searchTerm)).ToListAsync();
+            var byName =  await movieContext.Movies.Where(m => m.Name.ToLower().Contains(searchTerm)).ToListAsync();
             var byDirector = await movieContext.Movies.Where(m => m.Director.FirstName.ToLower().Contains(searchTerm) || m.Director.LastName.ToLower().Contains(searchTerm)).ToListAsync();
             var byActor = await movieContext.Movies.Where(m => m.Actors.Any(a => a.FirstName.ToLower().Contains(searchTerm) || a.LastName.ToLower().Contains(searchTerm))).ToListAsync();
             

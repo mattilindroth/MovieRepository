@@ -2,16 +2,18 @@ import React, {useState, useEffect} from 'react';
 import {useParams } from "react-router-dom";
 import Movie from '../Models/Movie';
 import axios from 'axios';
+import BackendUrl from '../Axios/AxiosConfig';
+
 import {Table, TableContainer, Paper, TableRow, TableCell, TableBody, TableHead,Card, CardContent, Typography, Rating } from '@mui/material';
  
 const MovieView:React.FC = ():JSX.Element => {
         const routeParams = useParams();
 
         const [movie, setMovie] = useState<Movie>();
-        const backendUrl = process.env.BACKEND_URL;
+       
         useEffect(() => {
             if(movie === undefined || movie === null) {
-                axios.get(backendUrl + "/Movies/" + routeParams.id).then(function(response) {
+                axios.get(BackendUrl + "/Movies/" + routeParams.id).then(function(response) {
                     console.log(response.data);
                     let movie: Movie = response.data;
                     setMovie(movie);

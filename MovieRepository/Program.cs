@@ -26,11 +26,13 @@ builder.Services.AddSwaggerGen(options =>
 //builder.Services.AddScoped<IMovieRepository, CosmosRepository>();
 //builder.Services.AddSingleton(parameters);
 
-//**** Parameters for SQL db ****
+
+//******************* Parameters for SQL db *********************
+
 //builder.Services.AddDbContext<MovieContext>(
 //       options => options.UseSqlServer("name=ConnectionStrings:MovieContext"));
 
-//**** In memory db ****
+//********************* In memory db ***************************
 builder.Services.AddDbContext<MovieContext>(options => 
     options.UseInMemoryDatabase("items"));
 builder.Services.AddScoped<IMovieRepository, SqlRepository>();

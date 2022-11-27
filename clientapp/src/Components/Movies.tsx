@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Movie from '../Models/Movie';
+import BackendUrl from '../Axios/AxiosConfig';
 import {Table, TableContainer, Paper, TableRow, TableCell, TableBody, TableHead,Card, CardContent, Typography, Link } from '@mui/material';
 
 const Movies:React.FC = ():JSX.Element => {    
 
         const [movies, setMovies] = useState<Array<Movie>>([]);
-        const backendUrl = process.env.BACKEND_URL;
 
         useEffect(() => {
             if(movies.length === 0) {
-                axios.get(backendUrl + "/Movies").then(function(response) {
+                axios.get(BackendUrl + "/Movies").then(function(response) {
                     console.log(response.data);
                     let movieList: Array<Movie> = response.data;
                     setMovies(movieList);
@@ -40,7 +40,7 @@ const Movies:React.FC = ():JSX.Element => {
                                     <TableCell component="th" scope="row">
                                         <Link href={"/movie/"+oneMovie.id}>{oneMovie.name}</Link>
                                     </TableCell>
-                                    <TableCell align="right">{oneMovie.genres.map((genre) => (genre + " "))}</TableCell>
+                                    <TableCell align="right">{oneMovie.genres.map((genre) => (genre.name + " "))}</TableCell>
                                     <TableCell align="right">{oneMovie.year}</TableCell>
                                 </TableRow>
                             ))}
