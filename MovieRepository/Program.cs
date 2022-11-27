@@ -4,6 +4,7 @@ using MovieStorehouse.Repository;
 using MovieStorehouse.Services;
 using MovieStorehouse.Storehouse;
 using MovieStorehouse.Swagger;
+using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,8 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SwaggerOperationAttribute>();
 });
 
-//Get parameters for cosmosDB connection
+//**************Get parameters for cosmosDB connection**************
+
 //var configSection = builder.Configuration.GetSection("CosmosDbConnection");
 //var parameters = new CosmosDBConnectionParameters(configSection.GetValue<string>("EndPointUri"),
 //                                                           configSection.GetValue<string>("PrimaryKey"),
@@ -24,9 +26,10 @@ builder.Services.AddSwaggerGen(options =>
 //builder.Services.AddScoped<IMovieRepository, CosmosRepository>();
 //builder.Services.AddSingleton(parameters);
 
-// Parameters for SQL db 
+//**** Parameters for SQL db ****
 //builder.Services.AddDbContext<MovieContext>(
 //       options => options.UseSqlServer("name=ConnectionStrings:MovieContext"));
+
 //**** In memory db ****
 builder.Services.AddDbContext<MovieContext>(options => 
     options.UseInMemoryDatabase("items"));
@@ -58,5 +61,29 @@ app.MapGet("/movies", async (MovieService movieService) => await movieService.Ge
 app.MapGet("/movies/{id}", async (int id, MovieService movieService) => await movieService.GetById(id)).WithName("getMovieById");
 app.MapGet("movies/search/{searchTerm}", async (string searchTerm, MovieService movieService) => await movieService.Search(searchTerm)).WithName("searchMovie");
 app.MapPost("movies", async (Movie movie, MovieService movieService) => await movieService.AddNew(movie)).WithName("addNew");
+
+//Ensure data seeding not in test or production environments
+#if DEBUG
+using (var context = new MovieContext())
+{
+    context.Database.EnsureCreated();
+    var seedProvider = new DataSeedProvider();
+    var movies = seedProvider.GetMoviesSeed;
+
+    var genres = seedProvider.GetGenresSeed;
+    var persons = seedProvider.GetPersonsSeed;
+
+    context.Genres.AddRange(genres);
+    context.SaveChanges();
+
+    context.Persons.AddRange(persons);
+    context.SaveChanges();
+    
+    context.Movies.AddRange(movies);
+    context.SaveChanges();
+   
+}
+
+#endif
 
 app.Run();

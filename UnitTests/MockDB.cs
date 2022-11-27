@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MovieRepository.Models;
+using MovieStorehouse.Models;
 
 using Newtonsoft.Json;
 
 namespace UnitTests
 {
-    internal class MockDB : MovieRepository.Storehouse.IMovieRepository
+    internal class MockDB : MovieStorehouse.Storehouse.IMovieRepository
     {
 
         private readonly List<Movie> _movies;
@@ -21,13 +21,18 @@ namespace UnitTests
             string json = File.ReadAllText("movies-compact.json");
 
             _movies = JsonConvert.DeserializeObject<List<Movie>>(json);
-            _movies.ForEach(m => m.Id = Guid.NewGuid().ToString());
+            int counter = 1;
+            foreach(var m in _movies)
+            {
+                m.Id = counter;
+                counter++;
+            }
         }
 
         public Task<Movie> AddMovieAsync(Movie movie)
         {
 
-            movie.Id = Guid.NewGuid().ToString();
+            movie.Id = _movies.Count() +1;
             _movies.Add(movie);
             return Task.FromResult(movie);
         }
@@ -37,7 +42,7 @@ namespace UnitTests
             return Task.FromResult( _movies );
         }
 
-        public Task<Movie?> GetMovieByIdAsync(string id)
+        public Task<Movie?> GetMovieByIdAsync(int id)
         {
             var movie = _movies.Where(m => m.Id == id).FirstOrDefault();
             return Task.FromResult(movie);

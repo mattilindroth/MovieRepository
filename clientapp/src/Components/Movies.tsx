@@ -16,9 +16,7 @@ const Movies:React.FC = ():JSX.Element => {
                     setMovies(movieList);
                 }).catch(function(error) {console.log(error)});
             }
-        });
-
-        
+        });       
         
         if(movies.length === 0) {
             return <div>...Loading...</div>

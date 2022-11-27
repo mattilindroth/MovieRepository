@@ -1,7 +1,8 @@
 using Castle.Core.Logging;
 using Moq;
-using MovieRepository.Services;
-using MovieRepository.Storehouse;
+using MovieStorehouse.Repository;
+using MovieStorehouse.Services;
+using MovieStorehouse.Storehouse;
 
 namespace UnitTests
 {
@@ -15,28 +16,10 @@ namespace UnitTests
         }
 
         [Fact]
-        public async Task EmptyIdReturnsEmptyObject()
-        {
-            MovieService service = new MovieService(_mockStorehouse);
-            string emptyId = "";
-
-            var nonExistingMovie = await service.GetById(emptyId);
-            Assert.NotNull(nonExistingMovie);
-            Assert.True(string.IsNullOrEmpty(nonExistingMovie.Name));
-            Assert.True(string.IsNullOrEmpty(nonExistingMovie.Director?.FirstName));
-            Assert.True(string.IsNullOrEmpty(nonExistingMovie.Director?.LastName));
-            Assert.True(string.IsNullOrEmpty(nonExistingMovie.Id));
-            Assert.True(string.IsNullOrEmpty(nonExistingMovie.Synopsis));
-
-            Assert.Null(nonExistingMovie.Actors);
-            Assert.Null(nonExistingMovie.Genres);
-        }
-
-        [Fact]
         public async Task NonExistingIdReturnsNullAsync()
         {
             MovieService service = new MovieService(_mockStorehouse);
-            string nonExistingId = "non-Existing-id";
+            int nonExistingId = 0;
 
             var nonExistingMovie = await service.GetById(nonExistingId);
             Assert.Null(nonExistingMovie);
@@ -49,12 +32,12 @@ namespace UnitTests
             MovieService service = new MovieService(_mockStorehouse);
             var movieList = await _mockStorehouse.GetAllMoviesAsync();
                         
-            string existingId = movieList.First().Id;
+            int existingId = 1;
 
             var existingMovie = await service.GetById(existingId);
 
             Assert.NotNull(existingMovie);
-            Assert.Equal(existingId, existingMovie.Id);
+            Assert.Equal(existingId, 1);
         }
     }
 }
