@@ -65,13 +65,6 @@ namespace MovieStorehouse.Repository
                 genreSeed.Add(genre);
                 counter++;
             }
-
-            //modelBuilder.Entity<Person>().HasData(persons);
-            //modelBuilder.Entity<Genre>().HasData(genres);
-            //modelBuilder.Entity<Movie>().HasData(movies);
-            //modelBuilder.Entity<Movie>(m => m.OwnsMany("Person", "Actors").HasData(persons) );
-            //modelBuilder.Entity<Movie>().OwnsOne("Person", "Director").HasData(persons);
-            ////modelBuilder.Entity<Movie>().OwnsMany("Genre", "Genres").HasData(persons);
         }
 
         public List<Movie> GetMoviesSeed { get => movieSeed; }

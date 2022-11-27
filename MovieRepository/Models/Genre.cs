@@ -15,7 +15,5 @@ namespace MovieStorehouse.Models
 
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        //public virtual ICollection<Movie> Movies { get;}
     }
 }

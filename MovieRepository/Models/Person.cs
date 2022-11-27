@@ -11,7 +11,6 @@ namespace MovieStorehouse.Models
     {
         public Person() 
         {
-            //Movies = new HashSet<Movie>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,7 +22,5 @@ namespace MovieStorehouse.Models
         
         [JsonProperty("lastName")]
         public string LastName { get; set; }
-
-        //public virtual ICollection<Movie> Movies { get;}
     }
 }
