@@ -41,7 +41,7 @@ const MovieView:React.FC = ():JSX.Element => {
                                     <TableCell component="th" scope="row">
                                         Genres
                                     </TableCell>
-                                    <TableCell>{movie.genres.map((genre) => genre + " ")}</TableCell>
+                                    <TableCell>{movie.genres.map((genre) => genre.name + " ")}</TableCell>
                                 </TableRow>
 
                                 {/* Synopsis */}
@@ -65,7 +65,7 @@ const MovieView:React.FC = ():JSX.Element => {
                                     <TableCell component="th" scope="row">
                                         Actors
                                     </TableCell>
-                                    <TableCell>{movie.actors.map((oneActor) => oneActor.firstName + " " + oneActor.lastName)}</TableCell>
+                                    <TableCell>{movie.actors.map((oneActor) => oneActor.firstName + " " + oneActor.lastName + " ")}</TableCell>
                                 </TableRow>
 
                                 {/* Director */}

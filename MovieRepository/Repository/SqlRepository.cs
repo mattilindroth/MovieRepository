@@ -31,7 +31,11 @@ namespace MovieStorehouse.Repository
 
         public async Task<Movie?> GetMovieByIdAsync(int id)
         {
-            return await movieContext.Movies.FirstAsync(m => m.Id == id);
+            return await movieContext.Movies
+                .Include(m => m.Genres)
+                .Include(m => m.Actors)
+                .Include(m => m.Director)
+                .FirstAsync(m => m.Id == id);
         }
 
         public async Task<List<Movie>> SearchAsync(string searchTerm)
