@@ -6,6 +6,8 @@ import Movies from './Components/Movies';
 import MovieView from './Components/Movie';
 import AddMovie from './Components/AddMovie';
 import Search from './Components/Search';
+import { Provider } from 'react-redux'
+//import { store } from './store';
 
 import {
   BrowserRouter as Router,

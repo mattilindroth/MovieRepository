@@ -44,6 +44,8 @@ namespace MovieStorehouse.Repository
             var byName =  await movieContext.Movies.Where(m => m.Name.ToLower().Contains(searchTerm)).ToListAsync();
             var byDirector = await movieContext.Movies.Where(m => m.Director.FirstName.ToLower().Contains(searchTerm) || m.Director.LastName.ToLower().Contains(searchTerm)).ToListAsync();
             var byActor = await movieContext.Movies.Where(m => m.Actors.Any(a => a.FirstName.ToLower().Contains(searchTerm) || a.LastName.ToLower().Contains(searchTerm))).ToListAsync();
+
+            //var test = await movieContext(m => m.Name.ToLower().Contains(searchTerm) || m.Director.FirstName.ToLower().Contains(searchTerm) || m.Director.LastName.ToLower().Contains(searchTerm) || m.Actors.Any(a => a.FirstName.ToLower().Contains(searchTerm) || a.LastName.ToLower().Contains(searchTerm)));
             
             return byName.Union(byDirector).Union(byActor).ToList();    
         }

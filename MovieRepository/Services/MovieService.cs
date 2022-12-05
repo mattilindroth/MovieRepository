@@ -28,17 +28,23 @@ namespace MovieStorehouse.Services
 
         public async Task<IResult> GetById(int id)
         {
-            if (id <= 0)
+            try
             {
-                return Results.BadRequest("id cannot be empty or null");
-            }
+                if (id <= 0)
+                {
+                    return Results.BadRequest("id cannot be empty or null");
+                }
 
-            var movie = await _movieStoreHouse.GetMovieByIdAsync(id);
-            if(movie == null)
+                var movie = await _movieStoreHouse.GetMovieByIdAsync(id);
+                if (movie == null)
+                {
+                    return Results.NotFound(id);
+                }
+                return Results.Ok(movie);
+            } catch(Exception e)
             {
                 return Results.NotFound(id);
             }
-            return Results.Ok(movie);
         }
 
 

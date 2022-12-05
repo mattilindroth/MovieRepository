@@ -16,17 +16,17 @@ const Movies:React.FC = ():JSX.Element => {
                     setMovies(movieList);
                 }).catch(function(error) {console.log(error)});
             }
-        });       
+        });
         
         if(movies.length === 0) {
             return <div>...Loading...</div>
         }
 
-        return <Card sx={{ minWidth: 275 }}>
+        return <Card sx={{  }}>
                 <CardContent>
                     <Typography variant="h3">Movies listing</Typography>
                     <TableContainer component={Paper}>
-                        <Table sx={{ minWidth: 650, maxWidth: 1400 }} aria-label="simple table">
+                        <Table sx={{  maxWidth: 1400 }} aria-label="simple table">
                             <TableHead>
                             <TableRow>
                                 <TableCell><Typography variant="h5">Name</Typography></TableCell>
