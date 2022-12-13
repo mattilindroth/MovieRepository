@@ -12,8 +12,9 @@ namespace MovieStorehouse.Storehouse.Filters
 
             filterTerm = filterTerm.Trim().ToLower();
 
-            string sql = "SELECT * FROM movies m WHERE (LOWER(m.actors[0].firstName) like '%" + filterTerm + "%') OR (LOWER(m.actors[0].lastName) like '%" + filterTerm + "%')";
-            var query = new QueryDefinition(query: sql);
+            //Todo: Use Linq instead
+            string sql = "SELECT * FROM movies m WHERE (LOWER(m.actors[0].firstName) like '%@filterTerm%') OR (LOWER(m.actors[0].lastName) like '%@filterTerm%')";
+            var query = new QueryDefinition(query: sql).WithParameter("@filterTerm", filterTerm);
 
             using FeedIterator<Movie> feed = container.GetItemQueryIterator<Movie>(queryDefinition: query);
 

@@ -20,8 +20,12 @@ namespace MovieStorehouse.Repository
 
         private async Task<List<Movie>> RetrieveMovieByProperty(string propertyName, string propertyValue)
         {
-            string sql = "SELECT * FROM movies m WHERE m." + propertyName + " = @filter";
-            var query = new QueryDefinition(query: sql).WithParameter("@filter", propertyValue);
+            //Todo: Use Linq instead
+            string sql = "SELECT * FROM movies m WHERE m.@propertyName = @filter";
+            var query = new QueryDefinition(query: sql)
+                .WithParameter("@filter", propertyValue)
+                .WithParameter("@propertyName", propertyName);
+
 
             using FeedIterator<Movie> feed = _cosmosContainer.GetItemQueryIterator<Movie>(queryDefinition: query);
 
